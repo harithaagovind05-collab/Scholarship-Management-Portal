@@ -1,0 +1,16 @@
+# Database credentials / environment
+.env
+.env.*
+
+# Local SQL/database files
+*.sql
+*.sql.gz
+
+# Temporary files
+*.log
+
+# Testing files
+test_eligibility.php
+
+# SQL Query Lab
+sql_lab.php
