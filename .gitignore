@@ -1,5 +1,6 @@
 # Database credentials / environment
 .env
+rm sql_lab.php
 .env.*
 
 # Local SQL/database files
