@@ -181,11 +181,7 @@ if ($requestMethod == 'POST') {
 
             <div class="nav-label">Main</div>
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                </li>
+                >
                 <li class="nav-label">Manage</li>
                 <li class="nav-item">
                     <a class="nav-link" href="students.php"><i class="bi bi-people"></i> Students</a>
@@ -196,33 +192,19 @@ if ($requestMethod == 'POST') {
                 <li class="nav-item">
                     <a class="nav-link" href="applications.php"><i class="bi bi-file-earmark-text"></i> Applications</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
-                </li>
+                <li class="na>
                 <li class="nav-item">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
-                </li>
+                    <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i>
             </ul>
         </nav>
 
         <!-- ===================== MAIN CONTENT ===================== -->
         <main class="col-lg-10 ms-sm-auto px-0 pb-4">
 
-            <!-- Topbar -->
-            <div class="topbar d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-secondary btn-sm d-lg-none" type="button"
-                            data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
-                        <i class="bi bi-list fs-5"></i>
-                    </button>
-                    <h5><?php echo $isEdit ? 'Edit Payment' : 'Record Payment'; ?></h5>
-                </div>
-                <nav aria-label="breadcrumb" class="d-none d-md-block">
-                    <ol class="breadcrumb mb-0 small">
-                        <li class="breadcrumb-item"><a href="index.php" class="text-decoration-none">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="payments.php" class="text-decoration-none">Payments</a></li>
+       >
+                        <li class="breadcrumb-item"><a hre>
                         <li class="breadcrumb-item active"><?php echo $isEdit ? 'Edit' : 'Record'; ?></li>
                     </ol>
                 </nav>
@@ -371,8 +353,7 @@ if ($requestMethod == 'POST') {
             <li class="nav-item">
                 <a class="nav-link active" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
             </li>
-            <li class="nav-item">
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
             </li>

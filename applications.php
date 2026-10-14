@@ -183,11 +183,7 @@ $today = date('Y-m-d');
 
             <div class="nav-label">Main</div>
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                </li>
+                >
                 <li class="nav-label">Manage</li>
                 <li class="nav-item">
                     <a class="nav-link" href="students.php"><i class="bi bi-people"></i> Students</a>
@@ -198,230 +194,23 @@ $today = date('Y-m-d');
                 <li class="nav-item">
                     <a class="nav-link active" href="applications.php"><i class="bi bi-file-earmark-text"></i> Applications</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
-                </li>
+                <li cl>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
                 </li>
             </ul>
-        </nav>
-
-        <!-- ===================== MAIN CONTENT ===================== -->
-        <main class="col-lg-10 ms-sm-auto px-0 pb-4">
-
-            <!-- Topbar -->
-            <div class="topbar d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-secondary btn-sm d-lg-none" type="button"
-                            data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
-                        <i class="bi bi-list fs-5"></i>
-                    </button>
-                    <h5>Applications</h5>
-                </div>
-                <span class="text-muted small d-none d-md-inline">
-                    <i class="bi bi-file-earmark-text me-1"></i><?php echo count($applications); ?> application<?php echo count($applications) == 1 ? '' : 's'; ?>
-                </span>
-            </div>
-
-            <div class="px-3 px-md-4">
-
-                <!-- Flash message (after add / update / delete) -->
-                <?php if ($flash): ?>
-                    <div class="mt-4">
-                        <?php showAlert($flash['type'], htmlspecialchars($flash['text'])); ?>
-                    </div>
-                <?php endif; ?>
-
-                <!-- Applications panel -->
-                <div class="panel mt-4">
-
-                    <div class="panel-head d-flex flex-wrap align-items-center justify-content-between gap-2">
-                        <h6><i class="bi bi-file-earmark-text me-2 text-primary"></i>All Applications</h6>
-
-                        <div class="d-flex flex-wrap align-items-center gap-2">
-                            <!-- Search + status filter -->
-                            <form method="get" action="applications.php" class="d-flex flex-wrap gap-2" role="search">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                                    <input type="text" name="search" class="form-control"
-                                           placeholder="Search student or scholarship..."
-                                           value="<?php echo htmlspecialchars($search); ?>" style="min-width: 210px;">
-                                </div>
-                                <select name="status" class="form-select form-select-sm" style="min-width: 130px;">
-                                    <option value="">All statuses</option>
-                                    <option value="Pending"   <?php echo $status == 'Pending'   ? 'selected' : ''; ?>>Pending</option>
-                                    <option value="Approved"  <?php echo $status == 'Approved'  ? 'selected' : ''; ?>>Approved</option>
-                                    <option value="Rejected"  <?php echo $status == 'Rejected'  ? 'selected' : ''; ?>>Rejected</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
-                            </form>
-
-                            <!-- Add Application button -->
-                            <a href="application_form.php" class="btn btn-primary btn-sm">
-                                <i class="bi bi-plus-lg me-1"></i>Add Application
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="ps-4">#</th>
-                                    <th>Student</th>
-                                    <th>Scholarship</th>
-                                    <th>Eligibility</th>
-                                    <th>Applied On</th>
-                                    <th>Status</th>
-                                    <th class="text-end pe-4">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (count($applications) > 0): ?>
-                                    <?php foreach ($applications as $app):
-                                        // Same engine the backend enforces on save -
-                                        // this badge always matches the enforcement result.
-                                        $eligResult = checkEligibility($app, $app); ?>
-                                        <tr>
-                                            <td class="ps-4 fw-semibold">
-                                                #<?php echo htmlspecialchars($app['Application_ID']); ?>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="student-avatar">
-                                                        <?php echo htmlspecialchars(mb_strtoupper(mb_substr($app['Student_Name'], 0, 1))); ?>
-                                                    </span>
-                                                    <div>
-                                                        <div class="fw-semibold"><?php echo htmlspecialchars($app['Student_Name']); ?></div>
-                                                        <small class="text-muted"><?php echo htmlspecialchars($app['Course'] != '' ? $app['Course'] : 'Student #' . $app['Student_ID']); ?></small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><?php echo htmlspecialchars($app['Scholarship_Name']); ?></td>
-                                            <td><?php echo eligibilityBadge($eligResult); ?></td>
-                                            <td><?php echo $app['Apply_Date'] ? date('d M Y', strtotime($app['Apply_Date'])) : '&mdash;'; ?></td>
-
-                                            <!-- Quick status update: change the dropdown and it saves instantly -->
-                                            <td>
-                                                <form method="post" action="applications.php<?php echo ($search != '' || $status != '') ? '?' . http_build_query(array_filter(['search' => $search, 'status' => $status])) : ''; ?>">
-                                                    <input type="hidden" name="action" value="update_status">
-                                                    <input type="hidden" name="application_id" value="<?php echo (int)$app['Application_ID']; ?>">
-                                                    <?php
-                                                    $current = trim($app['Status']) != '' ? $app['Status'] : 'Pending';
-                                                    $known   = in_array($current, ['Pending', 'Approved', 'Rejected']);
-                                                    ?>
-                                                    <select name="new_status" class="status-select <?php echo 'status-' . strtolower($known ? $current : 'other'); ?>"
-                                                            onchange="this.form.submit()"
-                                                            title="Change status">
-                                                        <?php if (!$known): ?>
-                                                            <option value="<?php echo htmlspecialchars($current); ?>" selected><?php echo htmlspecialchars($current); ?></option>
-                                                        <?php endif; ?>
-                                                        <option value="Pending"  <?php echo $current == 'Pending'  ? 'selected' : ''; ?>>Pending</option>
-                                                        <option value="Approved" <?php echo $current == 'Approved' ? 'selected' : ''; ?>>Approved</option>
-                                                        <option value="Rejected" <?php echo $current == 'Rejected' ? 'selected' : ''; ?>>Rejected</option>
-                                                    </select>
-                                                    <noscript><button type="submit" class="btn btn-sm btn-outline-primary ms-1">Save</button></noscript>
-                                                </form>
-                                            </td>
-
-                                            <td class="text-end pe-4">
-                                                <a href="application_form.php?id=<?php echo (int)$app['Application_ID']; ?>"
-                                                   class="btn btn-outline-primary btn-sm me-1" title="Edit">
-                                                    <i class="bi bi-pencil"></i> Edit
-                                                </a>
-                                                <button type="button"
-                                                        class="btn btn-outline-danger btn-sm"
-                                                        data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                        data-id="<?php echo (int)$app['Application_ID']; ?>"
-                                                        data-student="<?php echo htmlspecialchars($app['Student_Name']); ?>"
-                                                        data-scholarship="<?php echo htmlspecialchars($app['Scholarship_Name']); ?>">
-                                                    <i class="bi bi-trash"></i> Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted py-4">
-                                            <?php if ($search != '' || $status != ''): ?>
-                                                <i class="bi bi-search me-1"></i> No applications match your filters.
-                                            <?php else: ?>
-                                                <i class="bi bi-inbox me-1"></i> No applications yet. Click "Add Application" to create the first one.
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <p class="text-center text-muted small mt-4 mb-0">
-                    Scholarship Management Portal &middot; DBMS Mini Project
-                </p>
-
-            </div>
-        </main>
-    </div>
-</div>
-
-<!-- ===================== DELETE CONFIRMATION MODAL ===================== -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="post" action="applications.php<?php echo ($search != '' || $status != '') ? '?' . http_build_query(array_filter(['search' => $search, 'status' => $status])) : ''; ?>">
-                <div class="modal-body">
-                    <p class="mb-0">
-                        Delete the application of
-                        <strong id="deleteAppStudent"></strong>
-                        for <strong id="deleteAppScholarship"></strong>?
-                        This action cannot be undone.
-                    </p>
-                    <!-- hidden fields for the delete request -->
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="application_id" id="deleteAppId" value="">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-trash me-1"></i>Yes, Delete
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- ===================== MOBILE MENU ===================== -->
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="mobileMenu">
-    <div class="offcanvas-header border-bottom border-secondary">
-        <h5 class="offcanvas-title"><i class="bi bi-mortarboard-fill me-2"></i>Scholarship Portal</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body px-2">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="index.php"><i class="bi bi-speedometer2"></i> Dashboard</a>
-            </li>
+        </nav>>
             <li class="nav-item">
                 <a class="nav-link" href="students.php"><i class="bi bi-people"></i> Students</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="scholarships.php"><i class="bi bi-award"></i> Scholarships</a>
-            </li>
+            <>
             <li class="nav-item">
                 <a class="nav-link active" href="applications.php"><i class="bi bi-file-earmark-text"></i> Applications</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
             </li>
-            <li class="nav-item">
-            </li>
+            
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
             </li>
