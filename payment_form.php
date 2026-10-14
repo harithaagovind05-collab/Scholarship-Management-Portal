@@ -200,7 +200,6 @@ if ($requestMethod == 'POST') {
                     <a class="nav-link active" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="sql_lab.php"><i class="bi bi-database"></i> SQL Query Lab</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
@@ -373,7 +372,6 @@ if ($requestMethod == 'POST') {
                 <a class="nav-link active" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sql_lab.php"><i class="bi bi-database"></i> SQL Query Lab</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>

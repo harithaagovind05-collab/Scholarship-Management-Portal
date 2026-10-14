@@ -132,9 +132,6 @@ $students = $stmt->fetchAll();
                     <a class="nav-link" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="sql_lab.php"><i class="bi bi-database"></i> SQL Query Lab</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
                 </li>
             </ul>
@@ -322,7 +319,6 @@ $students = $stmt->fetchAll();
                 <a class="nav-link" href="payments.php"><i class="bi bi-cash-coin"></i> Payments</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="sql_lab.php"><i class="bi bi-database"></i> SQL Query Lab</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="bi bi-shield-lock"></i> Admins</a>
